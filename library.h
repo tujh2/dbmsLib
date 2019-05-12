@@ -143,7 +143,7 @@ namespace dbmsLib {
         virtual void AddRow(Row row, int index) = 0;
 
         virtual void DeleteRow(int index)=0;
-        
+
         virtual DBTable *SelfRows(std::string colName, Condition cond, void *value) = 0;
     };
 

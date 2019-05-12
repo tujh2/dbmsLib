@@ -990,6 +990,7 @@ namespace dbmsLib {
         char buf[1024];
         char delims[] = "|\r\n";
         char *token, *next_token;
+        std::string tabName;
         in.getline(buf, 80);
         next_token = buf;
         std::string dbType = dbName.substr(dbName.size() - 3, 3);
@@ -1003,7 +1004,9 @@ namespace dbmsLib {
                 return 0;
             }
             tab->ReadDBTable(dbName + "/" + token);
-            db[token] = tab;
+            tabName = token;
+            tabName = tabName.substr(0, tabName.length()-4);
+            db[tabName] = tab;
         }
         in.close();
         return 1;
@@ -1019,6 +1022,12 @@ namespace dbmsLib {
 
     void DBTableSet::WriteDB() {
         std::string dbType = dbName.substr(dbName.size() - 3, 3);
+        if(dbType == "Bin")
+            dbType = ".bin";
+        else if(dbType == "Txt")
+            dbType = ".txt";
+        else
+            return;
         std::string tabType;
         std::ofstream out(dbName + "/DBTables.txt");
         if (!out.is_open()) {
@@ -1026,8 +1035,8 @@ namespace dbmsLib {
             return;
         }
         for (auto iter = db.begin(); iter != db.end(); iter++) {
-            iter->second->WriteDBTable(dbName + '/' + iter->first);
-            out << iter->first << '|';
+            iter->second->WriteDBTable(dbName + '/' + iter->first + dbType);
+            out << iter->first + dbType << '|';
         }
         out.seekp(out.tellp() - (long) 1);
         out << std::endl;
