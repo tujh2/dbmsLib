@@ -9,7 +9,6 @@
 #include <cstring>
 #include <fstream>
 #include <iomanip>
-#include <queue>
 
 namespace dbmsLib {
     class DBDate {
@@ -143,7 +142,8 @@ namespace dbmsLib {
 
         virtual void AddRow(Row row, int index) = 0;
 
-        //virtual void DeleteRow(int index)=0;
+        virtual void DeleteRow(int index)=0;
+        
         virtual DBTable *SelfRows(std::string colName, Condition cond, void *value) = 0;
     };
 
@@ -277,7 +277,8 @@ namespace dbmsLib {
 
         void AddRow(Row row, int index);
 
-        //void DeleteRow(int index);
+        void DeleteRow(int index);
+
         DBTable *SelfRows(std::string colName, Condition cond, void *value);
 
         std::vector<int> IndexOfRecord(void *keyValue, std::string keyColumnName);

@@ -8,7 +8,6 @@
 #include <fstream>
 #include <iomanip>
 
-
 namespace dbmsLib {
 
     const int DBDate::arrDays[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -436,11 +435,10 @@ namespace dbmsLib {
     }
 
     void DBTableTxt::AddRow(Row row, int index) {
-        std::vector<Row>::iterator iter;
-        iter = data.begin();
-        for (int i = 0; i < index - 1; i++)
-            iter++;
-        data.insert(iter, row);
+        if ( index < data.size() )
+            data[index] = row;
+        else
+            data.push_back(row);
     }
 
     void DBTableTxt::DeleteRow(int index) {
@@ -706,17 +704,23 @@ namespace dbmsLib {
         if (index > nRows)
             index = nRows;
         else {
-            Row *r = (Row *) data[index];
+            nRows++;
+            /*Row *r = (Row *) data[index];
             Row *r1;
             for (int i = index; i < nRows; i++) {
                 r1 = (Row *) data[i + 1];
                 data[i + 1] = (char *) r;
                 r = r1;
-            }
+            }*/
         }
         Row *row1 = new Row(row);
+        delete[] data[index];
         data[index] = (char *) row1;
-        nRows++;
+        //nRows++;
+    }
+
+    void DBTableBin::DeleteRow(int index) {
+        delete[] data[index];
     }
 
     std::string DBTableBin::valueToString(Row &row, std::string columnName) {
