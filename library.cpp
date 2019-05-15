@@ -514,7 +514,10 @@ namespace dbmsLib {
         iter = columnHeaders.begin();
         int sum = 0, j;
         while (iter != columnHeaders.end()) {
-            sum += iter->second.length + 3;
+            if (iter->first.length() > iter->second.length)
+                sum += iter->first.length() + 3;
+            else
+                sum += iter->second.length + 3;
             iter++;
         }
         nStrips = sum / screenWidth;
@@ -525,16 +528,20 @@ namespace dbmsLib {
             strips[i].nField = 0;
             strips[i].fieldWidth = new int[columnHeaders.size()];
             sum = 0, j = 0;
+            if (iter->first.length() > iter->second.length)
+                len = iter->first.length() + 3;
+            else
+                len = iter->second.length + 3;
             do {
-                if (iter->first.length() > iter->second.length)
-                    len = iter->first.length() + 3;
-                else
-                    len = iter->second.length + 3;
                 strips[i].fieldWidth[j] = len;
                 j++;
                 sum += len;
                 iter++;
                 strips[i].nField++;
+                if (iter->first.length() > iter->second.length)
+                    len = iter->first.length() + 3;
+                else
+                    len = iter->second.length + 3;
             } while (sum + len <= screenWidth && iter != columnHeaders.end());
         }
     }
@@ -743,7 +750,10 @@ namespace dbmsLib {
         iter = columnHeaders.begin();
         int sum = 0, j;
         while (iter != columnHeaders.end()) {
-            sum += iter->second.length + 3;
+            if (iter->first.length() > iter->second.length)
+                sum += iter->first.length() + 3;
+            else
+                sum += iter->second.length + 3;
             iter++;
         }
         nStrips = sum / screenWidth;
@@ -754,16 +764,20 @@ namespace dbmsLib {
             strips[i].nField = 0;
             strips[i].fieldWidth = new int[columnHeaders.size()];
             sum = 0, j = 0;
+            if (iter->first.length() > iter->second.length)
+                len = iter->first.length() + 3;
+            else
+                len = iter->second.length + 3;
             do {
-                if (iter->first.length() > iter->second.length)
-                    len = iter->first.length() + 3;
-                else
-                    len = iter->second.length + 3;
                 strips[i].fieldWidth[j] = len;
                 j++;
                 sum += len;
                 iter++;
                 strips[i].nField++;
+                if (iter->first.length() > iter->second.length)
+                    len = iter->first.length() + 3;
+                else
+                    len = iter->second.length + 3;
             } while (sum + len <= screenWidth && iter != columnHeaders.end());
         }
     }
