@@ -344,7 +344,7 @@ namespace dbmsLib {
                 "Int32",
                 "Double",
                 "String",
-                "Date"
+                "DBDate"
         };
         Header::iterator iter;
         iter = columnHeaders.begin();
@@ -413,6 +413,7 @@ namespace dbmsLib {
             delete[](strips[i].fieldWidth);
         }
         delete[] strips;
+        std::cout << std::setfill(' ');
     }
 
     Row DBTableTxt::operator[](int ind) {
@@ -703,24 +704,16 @@ namespace dbmsLib {
             ResizeData(DELTA);
         if (index > nRows)
             index = nRows;
-        else {
+        else
             nRows++;
-            /*Row *r = (Row *) data[index];
-            Row *r1;
-            for (int i = index; i < nRows; i++) {
-                r1 = (Row *) data[i + 1];
-                data[i + 1] = (char *) r;
-                r = r1;
-            }*/
-        }
         Row *row1 = new Row(row);
         delete[] data[index];
         data[index] = (char *) row1;
-        //nRows++;
     }
 
     void DBTableBin::DeleteRow(int index) {
         delete[] data[index];
+        nRows--;
     }
 
     std::string DBTableBin::valueToString(Row &row, std::string columnName) {
@@ -784,7 +777,7 @@ namespace dbmsLib {
                 "Int32",
                 "Double",
                 "String",
-                "Date"
+                "DBDate"
         };
         Header columnHeaders = GetHeader();
         Header::iterator iter, iterWhile, iter1;
@@ -823,6 +816,7 @@ namespace dbmsLib {
             delete[](strips[i].fieldWidth);
         }
         delete[] strips;
+        std::cout << std::setfill(' ');
     }
 
     bool comparator(TableDataType type, void *obj1, void *obj2, Condition cond) {
